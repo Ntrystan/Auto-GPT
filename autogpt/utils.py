@@ -50,8 +50,7 @@ def clean_input(prompt: str = "", talk=False):
 
         # ask for input, default when just pressing Enter is y
         logger.info("Asking user via keyboard...")
-        answer = input(prompt)
-        return answer
+        return input(prompt)
     except KeyboardInterrupt:
         logger.info("You interrupted Auto-GPT")
         logger.info("Quitting...")
@@ -116,7 +115,7 @@ def get_latest_bulletin() -> tuple[str, bool]:
             "data/CURRENT_BULLETIN.md", "r", encoding="utf-8"
         ).read()
     new_bulletin = get_bulletin_from_web()
-    is_new_news = new_bulletin != "" and new_bulletin != current_bulletin
+    is_new_news = new_bulletin not in ["", current_bulletin]
 
     news_header = Fore.YELLOW + "Welcome to Auto-GPT!\n"
     if new_bulletin or current_bulletin:

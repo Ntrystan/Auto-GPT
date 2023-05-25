@@ -88,7 +88,7 @@ def update_running_summary(
             new_events.remove(event)
 
     # This can happen at any point during execution, not just the beginning
-    if len(new_events) == 0:
+    if not new_events:
         new_events = "Nothing new happened."
 
     prompt = f'''Your task is to create a concise running summary of actions and information results in the provided text, focusing on key and potentially important information to remember.
@@ -130,9 +130,7 @@ Latest Development:
         SUMMARY_FILE_NAME,
     )
 
-    message_to_return = {
+    return {
         "role": "system",
         "content": f"This reminds you of these events from your past: \n{current_memory}",
     }
-
-    return message_to_return
