@@ -54,10 +54,7 @@ def before_record_response(response: Dict[str, Any]) -> Dict[str, Any]:
 
 def before_record_request(request: Any) -> Any:
     filtered_request = filter_hostnames(request)
-    filtered_request_without_dynamic_data = replace_timestamp_in_request(
-        filtered_request
-    )
-    return filtered_request_without_dynamic_data
+    return replace_timestamp_in_request(filtered_request)
 
 
 def filter_hostnames(request: Any) -> Any:

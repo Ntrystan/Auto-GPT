@@ -91,9 +91,7 @@ def is_duplicate_operation(
     state = file_operations_state(CFG.file_logger_path)
     if operation == "delete" and filename not in state:
         return True
-    if operation == "write" and state.get(filename) == checksum:
-        return True
-    return False
+    return operation == "write" and state.get(filename) == checksum
 
 
 def log_operation(operation: str, filename: str, checksum: str | None = None) -> None:

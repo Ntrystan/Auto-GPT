@@ -71,7 +71,7 @@ def main() -> None:
 
     # Initialize memory
     memory = get_memory(cfg, init=args.init)
-    logger.debug("Using memory of type: " + memory.__class__.__name__)
+    logger.debug(f"Using memory of type: {memory.__class__.__name__}")
 
     if args.file:
         try:

@@ -191,16 +191,12 @@ def generate_aiconfig_automatic(user_prompt) -> AIConfig:
     logger.debug(f"AI Config Generator Raw Output: {output}")
 
     # Parse the output
-    ai_name = re.search(r"Name(?:\s*):(?:\s*)(.*)", output, re.IGNORECASE).group(1)
-    ai_role = (
-        re.search(
-            r"Description(?:\s*):(?:\s*)(.*?)(?:(?:\n)|Goals)",
-            output,
-            re.IGNORECASE | re.DOTALL,
-        )
-        .group(1)
-        .strip()
-    )
+    ai_name = re.search(r"Name(?:\s*):(?:\s*)(.*)", output, re.IGNORECASE)[1]
+    ai_role = re.search(
+        r"Description(?:\s*):(?:\s*)(.*?)(?:(?:\n)|Goals)",
+        output,
+        re.IGNORECASE | re.DOTALL,
+    )[1].strip()
     ai_goals = re.findall(r"(?<=\n)-\s*(.*)", output)
     api_budget = 0.0  # TODO: parse api budget using a regular expression
 

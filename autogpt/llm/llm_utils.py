@@ -129,7 +129,6 @@ def create_chat_completion(
     if temperature is None:
         temperature = cfg.temperature
 
-    num_retries = 10
     warned_user = False
     logger.debug(
         f"{Fore.GREEN}Creating chat completion with model {model}, temperature {temperature}, max_tokens {max_tokens}{Fore.RESET}"
@@ -151,6 +150,7 @@ def create_chat_completion(
                 return message
     api_manager = ApiManager()
     response = None
+    num_retries = 10
     for attempt in range(num_retries):
         backoff = 2 ** (attempt + 2)
         try:
@@ -194,8 +194,7 @@ def create_chat_completion(
         logger.typewriter_log(
             "FAILED TO GET RESPONSE FROM OPENAI",
             Fore.RED,
-            "Auto-GPT has failed to get a response from OpenAI's services. "
-            + f"Try running Auto-GPT again, and if the problem the persists try running it with `{Fore.CYAN}--debug{Fore.RESET}`.",
+            f"Auto-GPT has failed to get a response from OpenAI's services. Try running Auto-GPT again, and if the problem the persists try running it with `{Fore.CYAN}--debug{Fore.RESET}`.",
         )
         logger.double_check()
         if cfg.debug_mode:
@@ -223,8 +222,7 @@ def batched(iterable, n):
 def chunked_tokens(text, tokenizer_name, chunk_length):
     tokenizer = tiktoken.get_encoding(tokenizer_name)
     tokens = tokenizer.encode(text)
-    chunks_iterator = batched(tokens, chunk_length)
-    yield from chunks_iterator
+    yield from batched(tokens, chunk_length)
 
 
 def get_ada_embedding(text: str) -> List[float]:
@@ -245,8 +243,7 @@ def get_ada_embedding(text: str) -> List[float]:
     else:
         kwargs = {"model": model}
 
-    embedding = create_embedding(text, **kwargs)
-    return embedding
+    return create_embedding(text, **kwargs)
 
 
 @retry_openai_api()
